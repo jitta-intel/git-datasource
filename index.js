@@ -36,7 +36,12 @@ class GithubDatasource {
 
   static async fetchDataSources(filenames = []) {
     return Promise.map(filenames, async (filename) => {
-      this.dataSource[filename] = await this.getConfig(filename)
+      const content = await this.getConfig(filename)
+      try {
+        this.dataSource[filename] = JSON.parse(content)
+      } catch (eror) {
+        this.dataSource[filename] = new Error('parse error')
+      }
     })
   }
 

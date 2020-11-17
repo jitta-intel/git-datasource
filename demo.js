@@ -11,8 +11,8 @@ const main = async () => {
     filenames: ['market', 'test']
   })
 
-  // console.log(GithubDataSource.get('test'))
-  // console.log(GithubDataSource.get('market'))
+  console.log(GithubDataSource.get('test'))
+  console.log(GithubDataSource.get('market'))
 }
 
 
