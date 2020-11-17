@@ -20,7 +20,9 @@ class GithubDatasource {
       token: this.accessToken
     })
     this.repository = this.gh.getRepo(this.org, this.repo)
-    return this.fetchDataSources(filenames)
+    await this.fetchDataSources(filenames)
+    this.isConnected = true
+    return this
   }
 
 
@@ -46,10 +48,18 @@ class GithubDatasource {
   }
 
   static get(filename) {
-    return this.dataSource[filename]
+    if (this.isConnected) {
+      return this.dataSource[filename]
+    }
+    throw new Error('Git-datasource is not connected.')
+  }
+
+  static set(field, data) {
+    return this.dataSource[field] = data
   }
 }
 
+GithubDatasource.isConnected = false
 GithubDatasource.accessToken = ''
 GithubDatasource.org = null
 GithubDatasource.repo = null
